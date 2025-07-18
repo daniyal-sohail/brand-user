@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState("");
   const [authChecked, setAuthChecked] = useState(false);
-
+  const [FAQ, setFAQ] = useState([]);
   const logOut = useCallback(() => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       setApiAuthLoading(false);
     }
   }, []);
-
+  
   return (
     <AuthContext.Provider
       value={{
