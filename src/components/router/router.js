@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 
-const protectedRoutes = ["/admin", "/admin/"];
 const authPages = ["/login", "/register"];
 const homePage = "/";
 
@@ -15,8 +14,8 @@ const RouterGuard = ({ children }) => {
   useEffect(() => {
     if (!authChecked) return; // Wait for auth check
 
-    // If not logged in, block /admin and home, redirect to /login
-    if (!isLoggedIn && (protectedRoutes.some((r) => pathname.startsWith(r)) || pathname === homePage)) {
+    // If not logged in, block all /admin/* and home, redirect to /login
+    if (!isLoggedIn && (pathname.startsWith("/admin") || pathname === homePage)) {
       router.replace("/login");
       return;
     }
@@ -36,7 +35,7 @@ const RouterGuard = ({ children }) => {
 
   // Only render children if allowed
   if (!authChecked) return null; // Or a loading spinner
-  if (!isLoggedIn && (protectedRoutes.some((r) => pathname.startsWith(r)) || pathname === homePage)) return null;
+  if (!isLoggedIn && (pathname.startsWith("/admin") || pathname === homePage)) return null;
   if (isLoggedIn && authPages.includes(pathname)) return null;
 
   return children;

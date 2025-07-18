@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
-import Dashboard from "./page";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -19,7 +18,7 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <main className="lg:ml-80 transition-all duration-300 ease-in-out">
         <div className="p-4 sm:p-6 lg:p-8">
-          <Dashboard />
+          {children}
         </div>
       </main>
     </div>

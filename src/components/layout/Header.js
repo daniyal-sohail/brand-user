@@ -28,21 +28,10 @@ const Header = ({ onMenuClick }) => {
             </div>
           </div>
 
-          <div className="hidden md:block flex-1 max-w-md mx-8">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-brand-warm-brown" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full pl-10 pr-4 py-2 border border-brand-beige rounded-lg bg-brand-light-beige focus:outline-none focus:ring-2 focus:ring-brand-warm-brown focus:border-transparent font-poppins"
-              />
-            </div>
-          </div>
+          {/* Search bar removed */}
 
           <div className="flex items-center space-x-3">
-            <button className="md:hidden text-brand-charcoal hover:text-brand-warm-brown transition-colors">
-              <Search className="h-5 w-5" />
-            </button>
+            {/* Mobile search button removed */}
             <button className="relative text-brand-charcoal hover:text-brand-warm-brown transition-colors">
               <Bell className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs flex items-center justify-center">

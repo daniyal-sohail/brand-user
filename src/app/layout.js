@@ -3,6 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { LibraryProvider } from "@/context/LibraryContext";
 import RouterGuard from "@/components/router/router";
 import { DashboardProvider } from "@/context/DashboardContext";
 
@@ -27,21 +28,23 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DashboardProvider>
-          <AuthProvider>
-            <ToastContainer
-              position="top-center"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-            <RouterGuard>{children}</RouterGuard>
-          </AuthProvider>
-        </DashboardProvider>
+        <AuthProvider>
+          <DashboardProvider>
+            <LibraryProvider>
+              <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+              <RouterGuard>{children}</RouterGuard>
+            </LibraryProvider>
+          </DashboardProvider>
+        </AuthProvider>
       </body>
     </html>
   );
