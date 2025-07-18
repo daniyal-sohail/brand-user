@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import RouterGuard from "@/components/router/router";
+import { DashboardProvider } from "@/context/DashboardContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,12 +27,21 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
-          <RouterGuard>
-            {children}
-          </RouterGuard>
-        </AuthProvider>
+        <DashboardProvider>
+          <AuthProvider>
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+            <RouterGuard>{children}</RouterGuard>
+          </AuthProvider>
+        </DashboardProvider>
       </body>
     </html>
   );
