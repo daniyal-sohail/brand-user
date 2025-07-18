@@ -1,5 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import RouterGuard from "@/components/router/router";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +26,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>
+          <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
+          <RouterGuard>
+            {children}
+          </RouterGuard>
+        </AuthProvider>
       </body>
     </html>
   );
