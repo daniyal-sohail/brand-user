@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { X, LogOut, BookOpen, LayoutDashboard } from 'lucide-react';
+import { X, LogOut, BookOpen, LayoutDashboard, Settings } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
+import Image from 'next/image';
 // Sidebar Component
 const Sidebar = ({ isOpen, onClose }) => {
   const { isLoggedIn, logOut } = useAuth();
@@ -17,6 +18,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       href: '/admin/library',
       label: 'Library',
       icon: BookOpen,
+    },
+    {
+      href: '/admin/settings',
+      label: 'Settings',
+      icon: Settings,
     },
   ];
 
@@ -33,19 +39,15 @@ const Sidebar = ({ isOpen, onClose }) => {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
       >
         <div className="flex flex-col h-full">
-          <div className="p-6 border-b border-brand-beige">
-            <div className="flex items-center justify-between">
-              <div className="h-10 w-40 bg-brand-beige rounded flex items-center justify-center">
-                <span className="font-bold text-brand-charcoal font-poppins">Brand Appeal</span>
-              </div>
-              <button
-                onClick={onClose}
-                className="lg:hidden text-brand-charcoal hover:text-brand-warm-brown transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
+          <div className="h-16 w-full bg-brand-cream border-b border-brand-beige flex items-center justify-center">
+            <Image src="/images/brand-appeal-logo-wide-bw.svg" alt="Brand Appeal Logo" width={180} height={48} className="object-contain" />
           </div>
+          <button
+            onClick={onClose}
+            className="lg:hidden text-brand-charcoal hover:text-brand-warm-brown transition-colors"
+          >
+            <X className="h-5 w-5" />
+          </button>
 
           <nav className="flex-1 overflow-y-auto p-4">
             <div className="space-y-2">

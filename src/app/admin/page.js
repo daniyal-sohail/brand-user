@@ -59,7 +59,7 @@ const Dashboard = () => {
         </div>
         <h1 className="text-4xl font-bold ml-6 mt-3">Welcome Back, Admin. </h1>
         <p className="text-base font-semibold ml-6 mt-3">
-          Let's create something amazing!
+          Let&apos;s create something amazing!
         </p>
       </div>
       <div className="flex flex-col md:flex-row gap-4 mt-6 justify-evenly">
@@ -100,8 +100,8 @@ const Dashboard = () => {
               <p className="font-medium">System maintenance scheduled</p>
               <p>
                 Over 120 new templates and captions added for May. Explore the
-                calendar and enjoy fresh content for Mother's Day, National
-                Nurse's Day, and much more!
+                calendar and enjoy fresh content for Mother&apos;s Day, National
+                Nurse&apos;s Day, and much more!
               </p>
               <p className="text-xs opacity-60">June 28</p>
             </li>

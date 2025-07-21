@@ -8,7 +8,7 @@ const AdminDashboard = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen">
       {/* Header */}
       <Header onMenuClick={() => setSidebarOpen(true)} />
 
@@ -17,7 +17,7 @@ const AdminDashboard = ({ children }) => {
 
       {/* Main Content */}
       <main className="lg:ml-80 transition-all duration-300 ease-in-out">
-        <div className="p-4 sm:p-6 lg:p-8">
+        <div className="p-4 pt-16 bg-brand-light-beige">
           {children}
         </div>
       </main>
