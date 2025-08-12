@@ -26,7 +26,7 @@ const SettingsPage = () => {
             <h2 className="text-lg font-semibold heading-secondary mb-1">Account Information</h2>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between">
               <span className="text-brand-warm-brown mr-2 font-poppins">Email address</span>
-              <span className="font-semibold text-brand-charcoal font-poppins">abubakrsattar750@gmail.com</span>
+              <span className="font-semibold text-brand-charcoal font-poppins break-all">abubakrsattar750@gmail.com</span>
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@ const SettingsPage = () => {
         <div className="bg-brand-cream p-8 flex flex-col items-center justify-center text-center rounded-xl card mt-2">
           <h2 className="text-2xl font-bold heading-primary mb-2">Unlock Premium Features</h2>
           <p className="body-text mb-4 text-brand-warm-brown">Upgrade your plan to access exclusive features and benefits.</p>
-          <Link href="/admin/settings/join" className="btn-primary">
+          <Link href="/admin/settings/plan" className="btn-primary">
             Upgrade Now
           </Link>
         </div>

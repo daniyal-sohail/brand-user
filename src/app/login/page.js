@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const { postAuthData, apiAuthLoading, setUser, setRole, setIsLoggedIn } = useAuth();
+  const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -18,14 +20,23 @@ const LoginPage = () => {
       email: form.email,
       password: form.password,
     });
-    console.log(result,"this is response from the backend")
+    
     if (result?.status === 200 && result?.data?.accessToken) {
+      const userRole = result.data.user.role;
+      
+      // Check if user role is allowed to access the dashboard
+      if (userRole !== "USER") {
+        toast.error("Access denied. Only users can access this dashboard.");
+        return;
+      }
+      
       localStorage.setItem("token", result.data.accessToken);
       setUser(result.data.user);
-      setRole(result.data.user.role);
+      setRole(userRole);
       setIsLoggedIn(true);
       toast.success(result?.message || "Login successful!");
-      // Optionally redirect here
+      // Redirect to admin dashboard using Next.js router
+      router.push("/admin");
     } else {
       toast.error(result?.message || "Login failed. Please try again.");
     }

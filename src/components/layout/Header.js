@@ -1,10 +1,16 @@
 import React from 'react';
-import { Menu, Bell, Search, Settings} from 'lucide-react';
+import { Menu, Bell, Search, Settings, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 // Header Component
 const Header = ({ onMenuClick }) => {
   const { user, role, isLoggedIn } = useAuth();
+  const router = useRouter();
+
+  const handleProfileClick = () => {
+    router.push('/admin/profile');
+  };
   return (
     <header className="bg-brand-cream border-b border-brand-beige sticky top-0 z-40 lg:ml-80 transition-all duration-300 ease-in-out">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -41,24 +47,28 @@ const Header = ({ onMenuClick }) => {
             <button className="hidden sm:block text-brand-charcoal hover:text-brand-warm-brown transition-colors">
               <Settings className="h-5 w-5" />
             </button>
-            <div className="flex items-center space-x-3">
+            <button 
+              onClick={handleProfileClick}
+              className="flex items-center space-x-3 hover:bg-brand-soft-beige rounded-lg p-2 transition-colors cursor-pointer"
+            >
               <div className="w-8 h-8 rounded-full bg-brand-beige flex items-center justify-center">
                 <span className="text-sm font-bold text-brand-charcoal font-poppins">
                   {isLoggedIn && user?.name ? user.name[0].toUpperCase() : 'U'}
                 </span>
               </div>
-              <div className="text-brand-charcoal font-medium hidden sm:flex flex-col text-sm font-poppins">
-                {isLoggedIn && user ? (
-                  <>
-                    <span>{user.name}</span>
-                    <span className="text-xs text-brand-warm-brown">{user.email}</span>
-                    <span className="text-xs text-brand-warm-brown capitalize">{role}</span>
-                  </>
-                ) : (
-                  <span>Guest</span>
-                )}
-              </div>
-            </div>
+                           <div className="text-brand-charcoal font-medium hidden sm:flex flex-col text-sm font-poppins text-left">
+               {isLoggedIn && user ? (
+                 <>
+                   <span className="font-semibold">{user.name}</span>
+                   <span className="text-xs text-brand-warm-brown">{user.email}</span>
+                   <span className="text-xs text-brand-warm-brown capitalize">{role}</span>
+                 </>
+               ) : (
+                 <span>Guest</span>
+               )}
+             </div>
+              <User className="w-4 h-4 text-brand-warm-brown" />
+            </button>
           </div>
         </div>
       </div>

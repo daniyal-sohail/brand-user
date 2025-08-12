@@ -22,15 +22,33 @@ axiosInstance.interceptors.request.use(
 
 // Response interceptor: Handle errors globally
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Optionally handle 401/403 errors globally
-      // localStorage.removeItem("token");
-      // window.location.href = "/login";
+    // Use console.log for expected errors (400, 404) and console.error for unexpected errors
+    if (
+      error.response &&
+      (error.response.status === 400 || error.response.status === 404)
+    ) {
+    } else {
+      console.error(
+        "API Error (unexpected):",
+        error.config?.url,
+        error.response?.status,
+        error.response?.data
+      ); // Debug log
+    }
+
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      localStorage.removeItem("token");
+      // Don't redirect here, let the AuthContext handle it
     }
     return Promise.reject(error);
   }
 );
 
-export default axiosInstance; 
+export default axiosInstance;

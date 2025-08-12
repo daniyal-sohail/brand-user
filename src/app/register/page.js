@@ -16,8 +16,7 @@ const RegisterPage = () => {
     confirmPassword: "",
     role: "USER",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value });
@@ -29,10 +28,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
     if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
       toast.error("Passwords do not match");
       return;
     }
@@ -43,12 +39,10 @@ const RegisterPage = () => {
       role: form.role,
     });
     if (result?.status === 201) {
-      setSuccess(result?.message || "Registration successful! Please log in.");
       setForm({ name: "", email: "", password: "", confirmPassword: "", role: "USER" });
       toast.success(result?.message || "Registration successful! Please log in.");
       setTimeout(() => router.push("/login"), 1500);
     } else {
-      setError(result?.message || "Registration failed. Please try again.");
       toast.error(result?.message || "Registration failed. Please try again.");
     }
   };

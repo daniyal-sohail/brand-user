@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { X, LogOut, BookOpen, LayoutDashboard, Settings } from 'lucide-react';
+import { X, LogOut, LayoutDashboard, Settings, FileText, Bookmark, Calendar, CreditCard } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,9 +15,19 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: LayoutDashboard,
     },
     {
-      href: '/admin/library',
-      label: 'Library',
-      icon: BookOpen,
+      href: '/admin/template',
+      label: 'Templates',
+      icon: FileText,
+    },
+    {
+      href: '/admin/bookmark',
+      label: 'Bookmarks',
+      icon: Bookmark,
+    },
+    {
+      href: '/admin/calendar',
+      label: 'Calendar',
+      icon: Calendar,
     },
     {
       href: '/admin/settings',
