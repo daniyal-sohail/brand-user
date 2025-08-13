@@ -6,6 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { UserTemplateProvider } from "@/context/UserTemplateContext";
 import { BookmarkProvider } from "@/context/BookmarkContext";
 import { PlanProvider } from "@/context/PlanContext";
+import { CanvaProvider } from "@/context/CanvaContext";
 import RouterGuard from "@/components/router/router";
 import { DashboardProvider } from "@/context/DashboardContext";
 
@@ -35,17 +36,19 @@ export default function RootLayout({ children }) {
             <UserTemplateProvider>
               <BookmarkProvider>
                 <PlanProvider>
-                  <ToastContainer
-                    position="top-center"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                  />
-                  <RouterGuard>{children}</RouterGuard>
+                  <CanvaProvider>
+                    <ToastContainer
+                      position="top-center"
+                      autoClose={3000}
+                      hideProgressBar={false}
+                      newestOnTop
+                      closeOnClick
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
+                    <RouterGuard>{children}</RouterGuard>
+                  </CanvaProvider>
                 </PlanProvider>
               </BookmarkProvider>
             </UserTemplateProvider>
