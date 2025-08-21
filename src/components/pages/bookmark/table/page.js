@@ -156,20 +156,11 @@ const BookmarkTable = ({ bookmarks }) => {
                   className="flex-1 flex items-center justify-center gap-2 bg-brand-warm-brown text-brand-cream px-3 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition"
                   onClick={(e) => {
                     e.stopPropagation();
-                    window.open(template.canvaEditUrl, '_blank');
+                    window.open(template.canvaTemplateUrl, '_blank');
                   }}
                 >
                   <Edit size={14} />
                   Edit
-                </button>
-                <button 
-                  className="flex items-center justify-center gap-2 bg-brand-soft-beige text-brand-charcoal px-3 py-2 rounded-lg text-sm font-semibold hover:bg-brand-light-beige transition"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(template.canvaTemplateUrl, '_blank');
-                  }}
-                >
-                  <ExternalLink size={14} />
                 </button>
                 <button 
                   className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition bg-red-100 text-red-600 hover:bg-red-200"

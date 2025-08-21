@@ -15,13 +15,16 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDashboard } from "../../context/DashboardContext";
+import { useAuth } from "../../context/AuthContext";
 
 // Main Dashboard Component
 const Dashboard = () => {
   const { getFAQ } = useDashboard();
+  const { user } = useAuth();
   const [openIndexes, setOpenIndexes] = useState([]);
   const [showFAQ, setShowFAQ] = useState(false);
   const [FAQ, setFAQ] = useState([]);
+  
   useEffect(() => {
     const fetchFAQ = async () => {
       try {
@@ -39,11 +42,13 @@ const Dashboard = () => {
     
     fetchFAQ();
   }, [getFAQ]);
+  
   const toggleFAQ = (index) => {
     setOpenIndexes((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
+  
   return (
     <div className="px-2 sm:px-4 lg:px-0">
       <div className="flex items-center mb-4">
@@ -57,7 +62,9 @@ const Dashboard = () => {
           <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
           <p className="text-xs sm:text-sm font-semibold ml-2 sm:ml-3">Good to see you</p>
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold ml-4 sm:ml-6 mt-2 sm:mt-3">Welcome Back, User.</h1>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold ml-4 sm:ml-6 mt-2 sm:mt-3">
+          Welcome Back, {user?.name || 'User'}.
+        </h1>
         <p className="text-sm sm:text-base font-semibold ml-4 sm:ml-6 mt-2 sm:mt-3">
           Let&apos;s create something amazing!
         </p>

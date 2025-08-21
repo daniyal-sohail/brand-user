@@ -6,7 +6,6 @@ import { AuthProvider } from "@/context/AuthContext";
 import { UserTemplateProvider } from "@/context/UserTemplateContext";
 import { BookmarkProvider } from "@/context/BookmarkContext";
 import { PlanProvider } from "@/context/PlanContext";
-import { CanvaProvider } from "@/context/CanvaContext";
 import RouterGuard from "@/components/router/router";
 import { DashboardProvider } from "@/context/DashboardContext";
 
@@ -22,7 +21,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Brand Appeal - Social Media Content Management",
-  description: "Create stunning social media content with our comprehensive template library and content management tools.",
+  description:
+    "Create stunning social media content with our comprehensive template library and content management tools.",
 };
 
 export default function RootLayout({ children }) {
@@ -36,19 +36,17 @@ export default function RootLayout({ children }) {
             <UserTemplateProvider>
               <BookmarkProvider>
                 <PlanProvider>
-                  <CanvaProvider>
-                    <ToastContainer
-                      position="top-center"
-                      autoClose={3000}
-                      hideProgressBar={false}
-                      newestOnTop
-                      closeOnClick
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                    />
-                    <RouterGuard>{children}</RouterGuard>
-                  </CanvaProvider>
+                  <ToastContainer
+                    position="top-center"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                  />
+                  <RouterGuard>{children}</RouterGuard>
                 </PlanProvider>
               </BookmarkProvider>
             </UserTemplateProvider>

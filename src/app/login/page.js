@@ -23,7 +23,7 @@ const LoginPage = () => {
     
     if (result?.status === 200 && result?.data?.accessToken) {
       const userRole = result.data.user.role;
-      
+     
       // Check if user role is allowed to access the dashboard
       if (userRole !== "USER") {
         toast.error("Access denied. Only users can access this dashboard.");

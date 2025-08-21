@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState("");
   const [authChecked, setAuthChecked] = useState(false);
   const [FAQ, setFAQ] = useState([]);
+
   const logOut = useCallback(() => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       const accessToken = localStorage.getItem("token");
-      
+
       if (!accessToken) {
         setIsLoggedIn(false);
         setUser(null);
@@ -37,41 +38,36 @@ export const AuthProvider = ({ children }) => {
         setAuthChecked(true);
         return;
       }
-      
+
+      // Set logged in immediately if token exists
+      setIsLoggedIn(true);
+      setUser({ name: "User", email: "user@example.com" });
+      setRole("USER");
+
       // Fetch real user profile data
       setApiAuthLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/api/user/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axiosInstance.get("/user/me");
 
-        if (response.ok) {
-          const data = await response.json();
-        
-          setUser(data.data);
-          setRole(data.data.role || "");
-          setIsLoggedIn(true);
+        if (response.data?.data) {
+          setUser(response.data.data);
+          setRole(response.data.data.role || "USER");
         } else {
-          setIsLoggedIn(true);
           setUser({ name: "User", email: "user@example.com" });
           setRole("USER");
         }
       } catch (error) {
-        setIsLoggedIn(true);
+        console.log("Profile fetch failed, using fallback data:", error.message);
+        // Don't change the login state on API errors, keep user logged in with fallback data
         setUser({ name: "User", email: "user@example.com" });
         setRole("USER");
       } finally {
         setApiAuthLoading(false);
         setAuthChecked(true);
       }
-      
     };
-    
-    // Add a small delay to prevent race conditions
-    const timer = setTimeout(fetchProfile, 100);
-    return () => clearTimeout(timer);
+
+    fetchProfile();
   }, []);
 
   const postAuthData = useCallback(async (endpoint, payload) => {
@@ -88,7 +84,7 @@ export const AuthProvider = ({ children }) => {
       setApiAuthLoading(false);
     }
   }, []);
-  
+
   return (
     <AuthContext.Provider
       value={{

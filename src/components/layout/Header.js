@@ -29,12 +29,10 @@ const Header = ({ onMenuClick }) => {
             </div>
             <div className="hidden lg:block">
               <h1 className="font-semibold text-xl text-brand-charcoal font-poppins">
-                Admin Dashboard
+                User Dashboard
               </h1>
             </div>
           </div>
-
-          {/* Search bar removed */}
 
           <div className="flex items-center space-x-3">
             {/* Mobile search button removed */}
@@ -44,9 +42,9 @@ const Header = ({ onMenuClick }) => {
                 <span className="block h-2 w-2 bg-brand-cream rounded-full"></span>
               </span>
             </button>
-            <button className="hidden sm:block text-brand-charcoal hover:text-brand-warm-brown transition-colors">
+            {/* <button className="hidden sm:block text-brand-charcoal hover:text-brand-warm-brown transition-colors">
               <Settings className="h-5 w-5" />
-            </button>
+            </button> */}
             <button 
               onClick={handleProfileClick}
               className="flex items-center space-x-3 hover:bg-brand-soft-beige rounded-lg p-2 transition-colors cursor-pointer"

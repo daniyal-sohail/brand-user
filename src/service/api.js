@@ -26,23 +26,44 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Use console.log for expected errors (400, 404) and console.error for unexpected errors
+    // Use console.log for expected errors (400, 404, 500) and console.error for unexpected errors
     if (
       error.response &&
-      (error.response.status === 400 || error.response.status === 404)
+      (error.response.status === 400 || error.response.status === 404 || error.response.status === 500)
     ) {
+      console.log(
+        "API Error (expected):",
+        error.config?.url,
+        error.response?.status,
+        error.response?.data
+      );
+    } else if (
+      error.response &&
+      error.response.status === 401 &&
+      (error.config?.url?.includes("/canva/") ||
+        error.config?.url?.includes("/user/canva/"))
+    ) {
+      console.log(
+        "API Error (expected):",
+        error.config?.url,
+        error.response?.status,
+        error.response?.data
+      );
     } else {
       console.error(
         "API Error (unexpected):",
         error.config?.url,
         error.response?.status,
         error.response?.data
-      ); // Debug log
+      );
     }
 
+    // Only remove token for authentication-related endpoints on 401/403
     if (
       error.response &&
-      (error.response.status === 401 || error.response.status === 403)
+      (error.response.status === 401 || error.response.status === 403) &&
+      (error.config?.url?.includes("/auth/") ||
+        error.config?.url?.includes("/user/me"))
     ) {
       localStorage.removeItem("token");
       // Don't redirect here, let the AuthContext handle it

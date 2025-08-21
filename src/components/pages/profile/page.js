@@ -17,42 +17,19 @@ import {
   Camera,
 } from "lucide-react";
 import { toast } from "react-toastify";
+import axiosInstance from "@/service/api";
 
 const ProfilePage = () => {
   const { user, setUser } = useAuth();
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ name: "" });
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/user/me", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setProfile(data.data);
-        } else {
-          setError("Failed to fetch profile");
-        }
-      } catch (err) {
-        setError("Error loading profile");
-        console.error("Profile fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+  // Use user data from AuthContext
+  const profile = user;
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -77,6 +54,7 @@ const ProfilePage = () => {
   const handleSaveProfile = async () => {
     try {
       setUploadingImage(true);
+      setError("");
       const formData = new FormData();
       formData.append("name", editForm.name);
 
@@ -85,18 +63,15 @@ const ProfilePage = () => {
         formData.append("profileImage", selectedImage);
       }
 
-      const response = await fetch("http://localhost:5000/api/user/me", {
-        method: "PUT",
+      const response = await axiosInstance.put("/user/me", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Content-Type': 'multipart/form-data',
         },
-        body: formData,
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        setProfile(result.data);
-        setUser(result.data); // Update auth context
+      if (response.data?.data) {
+        // Update both local state and AuthContext
+        setUser(response.data.data);
         setIsEditing(false);
         setSelectedImage(null);
         toast.success("Profile updated successfully!");
@@ -105,7 +80,9 @@ const ProfilePage = () => {
       }
     } catch (err) {
       console.error("Profile update error:", err);
-      toast.error("Error updating profile");
+      const errorMessage = err.response?.data?.message || "Error updating profile";
+      toast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setUploadingImage(false);
     }
@@ -118,7 +95,8 @@ const ProfilePage = () => {
     }
   };
 
-  if (loading) {
+  // Show loading if user data is not available yet
+  if (!profile) {
     return (
       <div className="container-width fade-in min-h-screen">
         <div className="flex items-center justify-center min-h-[60vh]">
@@ -258,7 +236,7 @@ const ProfilePage = () => {
                 <div>
                   <p className="text-sm text-brand-warm-brown">Member Since</p>
                   <p className="font-semibold text-brand-charcoal">
-                    {formatDate(profile?.createdAt)}
+                    {profile?.createdAt ? formatDate(profile.createdAt) : 'N/A'}
                   </p>
                 </div>
               </div>

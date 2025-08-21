@@ -14,7 +14,6 @@ const RegisterPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "USER",
   });
 
 
@@ -22,9 +21,7 @@ const RegisterPage = () => {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
-  const handleRoleChange = (e) => {
-    setForm({ ...form, role: e.target.value });
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,10 +33,9 @@ const RegisterPage = () => {
       name: form.name,
       email: form.email,
       password: form.password,
-      role: form.role,
     });
     if (result?.status === 201) {
-      setForm({ name: "", email: "", password: "", confirmPassword: "", role: "USER" });
+      setForm({ name: "", email: "", password: "", confirmPassword: "" });
       toast.success(result?.message || "Registration successful! Please log in.");
       setTimeout(() => router.push("/login"), 1500);
     } else {
@@ -83,21 +79,7 @@ const RegisterPage = () => {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label className="block text-brand-charcoal font-poppins mb-2" htmlFor="role">
-              Role
-            </label>
-            <select
-              id="role"
-              value={form.role}
-              onChange={handleRoleChange}
-              className="w-full px-4 py-2 border border-brand-beige rounded-md bg-brand-light-beige focus:outline-none focus:ring-2 focus:ring-brand-warm-brown font-poppins"
-              required
-            >
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-            </select>
-          </div>
+
           <div>
             <label className="block text-brand-charcoal font-poppins mb-2" htmlFor="password">
               Password

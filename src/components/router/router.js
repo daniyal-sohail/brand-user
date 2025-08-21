@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 
@@ -10,21 +10,30 @@ const RouterGuard = ({ children }) => {
   const { isLoggedIn, authChecked, role } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!authChecked) {
-      return; // Wait for auth check
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!authChecked || !isClient) {
+      return; // Wait for auth check and client-side rendering
     }
 
     // If not logged in, block all /admin/* and home, redirect to /login
-    if (!isLoggedIn && (pathname.startsWith("/admin") || pathname === homePage)) {
+    if (
+      !isLoggedIn &&
+      (pathname.startsWith("/admin") || pathname === homePage)
+    ) {
       router.replace("/login");
       return;
     }
 
     // If logged in, check role for admin access
     if (isLoggedIn && pathname.startsWith("/admin")) {
-      if (role !== "USER") {
+      // Only check role if it's been set (not empty string)
+      if (role && role !== "USER") {
         localStorage.removeItem("token");
         router.replace("/login");
         return;
@@ -42,14 +51,27 @@ const RouterGuard = ({ children }) => {
       router.replace("/admin");
       return;
     }
-    
-  }, [isLoggedIn, authChecked, pathname, router, role]);
+  }, [isLoggedIn, authChecked, pathname, router, role, isClient]);
+
+  // Show loading while auth is being checked or during SSR
+  if (!authChecked || !isClient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-warm-brown mx-auto mb-4"></div>
+          <p className="text-brand-warm-brown">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Only render children if allowed
-  if (!authChecked) return null; // Or a loading spinner
-  if (!isLoggedIn && (pathname.startsWith("/admin") || pathname === homePage)) return null;
+  if (!isLoggedIn && (pathname.startsWith("/admin") || pathname === homePage))
+    return null;
   if (isLoggedIn && authPages.includes(pathname)) return null;
-  if (isLoggedIn && pathname.startsWith("/admin") && role !== "USER") return null;
+  // Wait for role to be set before checking admin access
+  if (isLoggedIn && pathname.startsWith("/admin") && role && role !== "USER")
+    return null;
 
   return children;
 };
